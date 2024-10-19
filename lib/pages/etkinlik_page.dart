@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_restapi/model/event.dart';
 import 'package:flutter_restapi/pages/etkinlik_detay_page.dart';
+import 'package:flutter_restapi/provider/events_provider.dart';
 import 'package:flutter_restapi/services/etkinlik_api.dart';
+import 'package:provider/provider.dart';
 
 
 class EventPage extends StatefulWidget {
@@ -15,16 +17,22 @@ class EventPage extends StatefulWidget {
 
 
 class _EtkinlikPageState extends State<EventPage> {
-  List<Event> events = [];
+  List<Event> events = [];  
+  
+  
   
   @override
   void initState(){
     super.initState();
-    fetchEvents(); //asking the user info from the api
+    final eventsProvider = Provider.of<EventsProvider>(context, listen: false);
+    eventsProvider.fetchEvents(); // Fetch the events without rebuilding the widget
+    //fetchEvents(); //asking the user info from the api
   }
   
   @override
   Widget build(BuildContext context) {
+    EventsProvider eventsProvider = Provider.of<EventsProvider>(context);
+    events = eventsProvider.eventsFetched;
     return Scaffold(
       appBar: AppBar(
         title: Text('İzmir Kültür Sanat Etkinlikleri',style: TextStyle(fontWeight: FontWeight.bold),),
@@ -54,17 +62,4 @@ class _EtkinlikPageState extends State<EventPage> {
       
     );
   }
-  
-  
- 
-  
-  
-    Future<void> fetchEvents() async{
-    final response = await EtkinlikApi.fetchEvents();
-    setState(() {
-      events = response;
-   });
-  }
-  
-  
 }

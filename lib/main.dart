@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_restapi/pages/etkinlik_page.dart';
+import 'package:flutter_restapi/provider/events_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => EventsProvider(),
+    child: MainApp()),
+  );
 }
 
 class MainApp extends StatelessWidget {
