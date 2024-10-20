@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_restapi/model/event.dart';
 import 'package:flutter_restapi/pages/etkinlik_detay_page.dart';
-import 'package:flutter_restapi/provider/events_provider.dart';
-import 'package:flutter_restapi/services/etkinlik_api.dart';
+import 'package:flutter_restapi/pages/wishlist_page.dart';
+import 'package:flutter_restapi/providers/bottom_nav_bar_provider.dart';
+import 'package:flutter_restapi/providers/events_provider.dart';
 import 'package:provider/provider.dart';
 
 
@@ -24,19 +25,34 @@ class _EtkinlikPageState extends State<EventPage> {
   @override
   void initState(){
     super.initState();
+    
     final eventsProvider = Provider.of<EventsProvider>(context, listen: false);
     eventsProvider.fetchEvents(); // Fetch the events without rebuilding the widget
-    //fetchEvents(); //asking the user info from the api
+    
   }
   
   @override
   Widget build(BuildContext context) {
+    //eventsProvider reinitiated because cannot reach the first its in initState()
+    BottomNavBarProvider bottomNavBarProvider = Provider.of<BottomNavBarProvider>(context);
     EventsProvider eventsProvider = Provider.of<EventsProvider>(context);
     events = eventsProvider.eventsFetched;
     return Scaffold(
       appBar: AppBar(
         title: Text('İzmir Kültür Sanat Etkinlikleri',style: TextStyle(fontWeight: FontWeight.bold),),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'Etkinlik Page'),
+           BottomNavigationBarItem(icon: Icon(Icons.shopping_basket), label: 'Wishlist Page')],
+        currentIndex: _bottomNavigationBarPages.etkinliklericon.index,
+        onTap: (index) {
+          bottomNavBarProvider.setCurrentIndex(index);
+          if(index == _bottomNavigationBarPages.wishlisticon.index){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => WishListPage() ));
+          }
+        },),
+        
       body: ListView.builder(
         itemCount: events.length,
         itemBuilder: (context, index) {
@@ -63,3 +79,6 @@ class _EtkinlikPageState extends State<EventPage> {
     );
   }
 }
+
+enum _bottomNavigationBarPages {etkinliklericon, wishlisticon}
+
