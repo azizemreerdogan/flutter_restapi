@@ -38,14 +38,16 @@ class _EtkinlikPageState extends State<EventPage> {
     EventsProvider eventsProvider = Provider.of<EventsProvider>(context);
     events = eventsProvider.eventsFetched;
     return Scaffold(
+  
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('İzmir Kültür Sanat Etkinlikleri',style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'Etkinlik Page'),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'Etkinlik Page',),
            BottomNavigationBarItem(icon: Icon(Icons.shopping_basket), label: 'Wishlist Page')],
-        currentIndex: _bottomNavigationBarPages.etkinliklericon.index,
+        currentIndex: bottomNavBarProvider.currentIndex,
         onTap: (index) {
           bottomNavBarProvider.setCurrentIndex(index);
           if(index == _bottomNavigationBarPages.wishlisticon.index){

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class BottomNavBarProvider extends ChangeNotifier{
-  int _currentIndex = 0;
+  int currentIndex = 0;
+  
+  
   
   void setCurrentIndex(int index){
-    _currentIndex = index;
+    currentIndex = index;
     notifyListeners();
   }
 }

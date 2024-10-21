@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "942997457993",
+    "project_id": "izmir-etkinlik-project2",
+    "storage_bucket": "izmir-etkinlik-project2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942997457993:android:610614b16afbbf10680398",
+        "android_client_info": {
+          "package_name": "com.example.flutter_restapi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZhm61rfuMJZnmWLxi23DOno6svdposnQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

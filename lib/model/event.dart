@@ -1,15 +1,15 @@
 class Event{
-  int? id;
-  late String name;
-  String? genre;
-  late String smallPoster;
-  late String picture;
-  String? details;
-  String? eventUrl;
-  String? startDate;
-  String? finishDate;
-  String? eventPlace;
-  String? ticketSaleLink;
+  final int  id;
+  final String name;
+  final String genre;
+  final String smallPoster;
+  final String picture;
+  final String details;
+  final String eventUrl;
+  final String startDate;
+  final String finishDate;
+  final String eventPlace;
+  //final String? ticketSaleLink;
   bool? isFree;
   
   
@@ -24,12 +24,41 @@ class Event{
     required this.startDate,
     required this.finishDate,
     required this.eventPlace,
-    required this.ticketSaleLink,
     required this.isFree,
   });
   
-  Event.fromEvent(Event e){
-    Event(details: e.details, eventPlace: e.eventPlace, eventUrl: e.eventUrl,finishDate: e.finishDate,genre: e.genre,id: e.id,isFree: e.isFree, name: e.name,picture: e.picture,
-    smallPoster: e.smallPoster,startDate: e.startDate, ticketSaleLink: e.ticketSaleLink,);
+  factory Event.fromJson(Map<String, dynamic> e){
+    return Event(
+        id: e['Id'],
+        genre: e['Tur'],
+        name: e['Adi'],
+        startDate: e['EtkinlikBaslamaTarihi'],
+        picture: e['Resim'],
+        details: e['KisaAciklama'],
+        eventPlace: e['EtkinlikMerkezi'],
+        eventUrl: e['EtkinlikUrl'],
+        finishDate: e['EtkinlikBitisTarihi'],
+        isFree: e['UcretsizMi'],
+        smallPoster: e['KucukAfis'],
+      );
+  }
+  
+    // Converts Event instance to a map for Firestore
+  Map<String, dynamic> toMap() {
+    return {
+      'Id': id,
+      'Adi': name,
+      'Tur': genre,
+      'Resim': picture,
+      'KisaAciklama': details,
+      'EtkinlikUrl': eventUrl,
+      'EtkinlikBaslamaTarihi': startDate,
+      'EtkinlikBitisTarihi': finishDate,
+      'EtkinlikMerkezi': eventPlace,
+      'KucukAfis': smallPoster,
+      'UcretsizMi': isFree,
+    };
   }
 }
+
+  

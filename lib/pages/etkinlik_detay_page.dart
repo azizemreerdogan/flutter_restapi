@@ -17,9 +17,7 @@ class EtkinlikDetayPage extends StatelessWidget {
          [Text(detailedEvent.name,style: TextStyle(fontSize: 25),),
          Image.network(detailedEvent.picture),
          SizedBox(height: 45,),
-         ElevatedButton(onPressed: () {eventsProvider.isWishlisted(detailedEvent)
-              ? eventsProvider.toggleWishlist(detailedEvent)
-              : eventsProvider.toggleWishlist(detailedEvent);},
+         ElevatedButton(onPressed: () {eventsProvider.toggleWishlist(detailedEvent);},
           style: ElevatedButton.styleFrom(
             fixedSize: Size(300, 80),
             backgroundColor:eventsProvider.isWishlisted(detailedEvent)
