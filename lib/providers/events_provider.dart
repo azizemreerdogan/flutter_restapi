@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_restapi/model/event.dart';
 import 'package:flutter_restapi/services/etkinlik_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 
 class EventsProvider extends ChangeNotifier{
@@ -39,11 +38,13 @@ class EventsProvider extends ChangeNotifier{
 
   
   Future<void> toggleWishlist(Event event) async{
-    debugPrint('addToWishlist called');
-    if(wishList.contains(event)){
+    debugPrint('toggleWishlist called');
+    if(wishList.any((e) => e.id == event.id)){
       await _firestore.collection('wishlist').doc(event.id.toString()).delete();
+      wishList.removeWhere((e) =>e.id == event.id);
     }else{
       await _firestore.collection('wishlist').doc(event.id.toString()).set(event.toMap());
+      wishList.add(event);
     }
     notifyListeners();
     
