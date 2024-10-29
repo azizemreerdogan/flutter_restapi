@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_restapi/model/event.dart';
 import 'package:flutter_restapi/pages/etkinlik_detay_page.dart';
@@ -18,15 +19,19 @@ class _WishListPageState extends State<WishListPage> {
   void initState() {
     super.initState();
     // Fetch the wishlist when the page is initialized
-    Provider.of<EventsProvider>(context, listen: false).fetchWishlist();
+    final user = FirebaseAuth.instance.currentUser;
+    if(user != null){
+      Provider.of<EventsProvider>(context, listen: false).fetchWishlist(user.uid);
+    }
+    
   }
   
-  @override
+  /*@override
   void didChangeDependencies(){
     super.didChangeDependencies();
     // Fetch the wishlist when the page is initialized
     Provider.of<EventsProvider>(context, listen: false).fetchWishlist();
-  }
+  }*/
 
   @override
 Widget build(BuildContext context) {

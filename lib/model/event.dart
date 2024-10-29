@@ -9,6 +9,7 @@ class Event{
   final String startDate;
   final String finishDate;
   final String eventPlace;
+  int wishlistedCount = 0;
   //final String? ticketSaleLink;
   bool? isFree;
   
@@ -25,6 +26,8 @@ class Event{
     required this.finishDate,
     required this.eventPlace,
     required this.isFree,
+    this.wishlistedCount = 0
+
   });
   
   factory Event.fromJson(Map<String, dynamic> e){
@@ -40,6 +43,8 @@ class Event{
         finishDate: e['EtkinlikBitisTarihi'],
         isFree: e['UcretsizMi'],
         smallPoster: e['KucukAfis'],
+        wishlistedCount: e['wishlistedCount'] ?? 0,
+        
       );
   }
   
@@ -57,6 +62,7 @@ class Event{
       'EtkinlikMerkezi': eventPlace,
       'KucukAfis': smallPoster,
       'UcretsizMi': isFree,
+      'wishlistedCount': wishlistedCount,
     };
   }
 }

@@ -16,7 +16,7 @@ class EventsProvider extends ChangeNotifier{
     notifyListeners();
   }
   
-   Future<void> fetchWishlist() async {
+   Future<void> fetchWishlist(String userId) async {
     debugPrint('Fetching wishlist...');
     try {
       QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
@@ -41,10 +41,13 @@ class EventsProvider extends ChangeNotifier{
     debugPrint('toggleWishlist called');
     if(wishList.any((e) => e.id == event.id)){
       await _firestore.collection('wishlist').doc(event.id.toString()).delete();
+      await _firestore.collection('wishlist').doc(event.id.toString()).update({'wishlistedCount': FieldValue.increment(-1)});
       wishList.removeWhere((e) =>e.id == event.id);
     }else{
       await _firestore.collection('wishlist').doc(event.id.toString()).set(event.toMap());
+      await _firestore.collection('wishlist').doc(event.id.toString()).update({'wishlistedCount': FieldValue.increment(1)});
       wishList.add(event);
+      
     }
     notifyListeners();
     

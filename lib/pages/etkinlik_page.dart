@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_restapi/model/event.dart';
 import 'package:flutter_restapi/pages/etkinlik_detay_page.dart';
+import 'package:flutter_restapi/pages/sign_in_page.dart';
 import 'package:flutter_restapi/pages/wishlist_page.dart';
 import 'package:flutter_restapi/providers/bottom_nav_bar_provider.dart';
 import 'package:flutter_restapi/providers/events_provider.dart';
+import 'package:flutter_restapi/user_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 
@@ -54,7 +56,12 @@ class _EtkinlikPageState extends State<EventPage> {
             Navigator.push(context, MaterialPageRoute(builder: (context) => WishListPage() ));
           }
         },),
-        
+      floatingActionButton: FloatingActionButton(onPressed:()
+       async {
+        await AuthService().signOut();
+        eventsProvider.wishList.clear();
+        Navigator.push(context, MaterialPageRoute(builder: (context) => SignInPage() ));},
+        child: Text('Sign Out'),),  
       body: ListView.builder(
         itemCount: events.length,
         itemBuilder: (context, index) {
