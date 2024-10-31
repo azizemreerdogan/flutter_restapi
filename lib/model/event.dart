@@ -1,31 +1,31 @@
 class Event{
-  final int  id;
-  final String name;
-  final String genre;
-  final String smallPoster;
-  final String picture;
-  final String details;
-  final String eventUrl;
-  final String startDate;
-  final String finishDate;
-  final String eventPlace;
+  final int?  id;
+  final String? name;
+  final String? genre;
+  final String? smallPoster;
+  final String? picture;
+  final String? details;
+  final String? eventUrl;
+  final String? startDate;
+  final String? finishDate;
+  final String? eventPlace;
   int wishlistedCount = 0;
   //final String? ticketSaleLink;
   bool? isFree;
   
   
   Event({
-    required this.id,
-    required this.name,
-    required this.genre,
-    required this.smallPoster,
-    required this.picture,
-    required this.details,
-    required this.eventUrl,
-    required this.startDate,
-    required this.finishDate,
-    required this.eventPlace,
-    required this.isFree,
+    this.id,
+    this.name,
+    this.genre,
+    this.smallPoster,
+    this.picture,
+    this.details,
+    this.eventUrl,
+    this.startDate,
+    this.finishDate,
+    this.eventPlace,
+    this.isFree,
     this.wishlistedCount = 0
 
   });

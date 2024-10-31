@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_restapi/model/event.dart';
+import 'package:flutter_restapi/pages/add_event_page.dart';
 import 'package:flutter_restapi/pages/etkinlik_detay_page.dart';
 import 'package:flutter_restapi/pages/sign_in_page.dart';
 import 'package:flutter_restapi/pages/wishlist_page.dart';
@@ -28,9 +29,14 @@ class _EtkinlikPageState extends State<EventPage> {
   void initState(){
     super.initState();
     
-    final eventsProvider = Provider.of<EventsProvider>(context, listen: false);
-    eventsProvider.fetchEvents(); // Fetch the events without rebuilding the widget
+    _initializeData();
     
+  }
+  
+  Future<void> _initializeData() async{
+    final eventsProvider = Provider.of<EventsProvider>(context, listen: false);
+    await eventsProvider.fetchEvents();
+    await eventsProvider.addEventsToFirestore(); 
   }
   
   @override
@@ -42,6 +48,25 @@ class _EtkinlikPageState extends State<EventPage> {
     return Scaffold(
   
       appBar: AppBar(
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AddEventPage()));
+            },
+            child: Container(
+            margin: const EdgeInsets.all(10),
+            alignment: Alignment.center,
+            width:60,
+            decoration: BoxDecoration(
+              color: Colors.amber,
+              borderRadius: BorderRadius.circular(10)
+            ),
+            child: Icon(Icons.add_box)
+            
+            
+          ),
+          )
+        ],
         automaticallyImplyLeading: false,
         title: Text('İzmir Kültür Sanat Etkinlikleri',style: TextStyle(fontWeight: FontWeight.bold),),
       ),
@@ -58,7 +83,7 @@ class _EtkinlikPageState extends State<EventPage> {
         },),
       floatingActionButton: FloatingActionButton(onPressed:()
        async {
-        await AuthService().signOut();
+        await AuthService().signOut(context,eventsProvider);
         eventsProvider.wishList.clear();
         Navigator.push(context, MaterialPageRoute(builder: (context) => SignInPage() ));},
         child: Text('Sign Out'),),  
@@ -68,14 +93,14 @@ class _EtkinlikPageState extends State<EventPage> {
           //final eventId = events[index].id;
           final eventName = events[index].name;
           return ListTile(
-            title: Text(eventName),
+            title: Text(eventName ?? ''),
             leading:ConstrainedBox(constraints: BoxConstraints(
               minWidth: 44,
               minHeight: 44,
               maxWidth: 64,
               maxHeight: 64,
             ),
-            child:  CircleAvatar(child: Image.network(events[index].smallPoster, fit: BoxFit.cover),),
+            child:  CircleAvatar(child: Image.network(events[index].smallPoster ?? '', fit: BoxFit.cover),),
              ),
            
             

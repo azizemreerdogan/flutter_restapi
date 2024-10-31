@@ -17,12 +17,11 @@ class EtkinlikDetayPage extends StatefulWidget {
 
 class _EtkinlikDetayPageState extends State<EtkinlikDetayPage> {
   
+  
 
   @override
   Widget build(BuildContext context) {
-    EventsProvider eventsProvider = Provider.of<EventsProvider>(context);
-    bool isWishlisted = eventsProvider.isWishlisted(widget.detailedEvent);
-
+   
     return Scaffold(
       appBar: AppBar(
         title: const Text('Etkinlikler'),
@@ -32,14 +31,17 @@ class _EtkinlikDetayPageState extends State<EtkinlikDetayPage> {
           child: Column(
             children: [
               Text(
-                widget.detailedEvent.name,
+                widget.detailedEvent.name ?? '',
                 style: const TextStyle(fontSize: 25),
               ),
-              Image.network(widget.detailedEvent.picture),
+              Image.network(widget.detailedEvent.picture ?? ''),
               SizedBox(height: 15,),
-              Text(widget.detailedEvent.startDate),
+              Text(widget.detailedEvent.startDate ?? ''),
               SizedBox(height: 45),
-              ElevatedButton(
+              Consumer<EventsProvider>(
+                builder: (context,eventsProvider, _){
+                  bool isWishlisted = eventsProvider.isWishlisted(widget.detailedEvent);
+                  return ElevatedButton(
                 onPressed: () {
                   eventsProvider.toggleWishlist(widget.detailedEvent);
                 },
@@ -51,7 +53,9 @@ class _EtkinlikDetayPageState extends State<EtkinlikDetayPage> {
                   isWishlisted ? 'İstek Listesinden Çıkar' : 'İstek Listesine Ekle',
                   style: const TextStyle(fontSize: 12),
                 ),
-              ),
+              );
+                }),
+              
               SizedBox(height: 20,),
               Text("Bu etkinliği ${widget.detailedEvent.wishlistedCount} kişi wishliste ekledi")
             ],

@@ -26,12 +26,14 @@ class _WishListPageState extends State<WishListPage> {
     
   }
   
-  /*@override
+  @override
   void didChangeDependencies(){
     super.didChangeDependencies();
     // Fetch the wishlist when the page is initialized
-    Provider.of<EventsProvider>(context, listen: false).fetchWishlist();
-  }*/
+    final user = FirebaseAuth.instance.currentUser;
+    if(user != null){
+    Provider.of<EventsProvider>(context, listen: false).fetchWishlist(user.uid);}
+  }
 
   @override
 Widget build(BuildContext context) {
@@ -67,9 +69,9 @@ Widget build(BuildContext context) {
                 itemCount: wishlistedEvents.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(wishlistedEvents[index].name),
+                    title: Text(wishlistedEvents[index].name ?? ''),
                     leading: CircleAvatar(
-                      backgroundImage: NetworkImage(wishlistedEvents[index].smallPoster),
+                      backgroundImage: NetworkImage(wishlistedEvents[index].smallPoster ?? ''),
                     ),
                     onTap: () {
                       Navigator.push(
